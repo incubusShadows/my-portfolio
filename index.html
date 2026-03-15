@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercy Perutka | Game Designer & Writer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            color: #37352f;
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+        .notion-h1 { font-size: 2.25rem; font-weight: 700; color: #37352f; margin-bottom: 2rem; }
+        .notion-h2 { font-size: 1.5rem; font-weight: 600; color: #a4794e; margin-bottom: 1.25rem; }
+        .notion-h3 { font-size: 1.1rem; font-weight: 600; color: #a4794e; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        
+        /* Card Styles */
+        .notion-card {
+            border: 1px solid #e9e9e8;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            transition: background 120ms ease-in;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: pointer;
+        }
+        .notion-card:hover { background-color: #f7f6f3; }
+        
+        /* Tag Styles */
+        .tag { padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 500; display: inline-block; margin-right: 4px; margin-bottom: 4px; }
+        .tag-writing { background-color: #faebdd; color: #a45b10; }
+        .tag-directing { background-color: #e7f3f8; color: #096ea0; }
+        .tag-developing { background-color: #f4f0f7; color: #9065b0; }
+        .tag-playtesting { background-color: #fdecc8; color: #cb912f; }
+        
+        .contact-link:hover { text-decoration: underline; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-thumb { background: #d3d1cb; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #aeaca6; }
+
+        .linkedin-button {
+            background-color: #faebdd;
+            color: #37352f;
+            border-radius: 6px;
+            transition: opacity 0.2s;
+            text-decoration: none !important;
+        }
+        .linkedin-button:hover { opacity: 0.8; }
+        
+        .card-img-container {
+            height: 140px;
+            background-color: #f1f1ef;
+            overflow: hidden;
+        }
+        .card-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Modal Styles */
+        #modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        #modal-content {
+            background: white;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-body {
+            padding: 40px 60px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #d3d1cb;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close-btn:hover { color: #37352f; }
+        
+        body.modal-open {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="p-8 md:p-16 lg:px-32 max-w-[1400px] mx-auto">
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" onclick="closeModal(event)">
+        <div id="modal-content" onclick="event.stopPropagation()">
+            <div class="close-btn" onclick="closeModal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </div>
+            <div id="modal-inner">
+                <!-- Content injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Title Header -->
+    <header class="mb-12">
+        <h1 class="notion-h1">Mercy Perutka - Game Designer and Writer</h1>
+    </header>
+
+    <!-- Work Gallery Section (Top) -->
+    <section class="mb-24">
+        <h2 class="notion-h2">What I'm working on</h2>
+        <div class="flex items-center gap-2 text-xs text-gray-400 mb-6 px-1">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            Gallery view
+        </div>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4" id="project-grid">
+            <!-- Cards generated by JavaScript for easier data management -->
+        </div>
+    </section>
+
+    <!-- About & Contact Section (Bottom) -->
+    <section class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-24 pt-12 border-t border-gray-100">
+        
+        <div class="md:col-span-4">
+            <h2 class="notion-h2">About Me</h2>
+            <div class="text-sm space-y-4 text-[#37352f]">
+                <p class="font-bold">Hi, I'm Mercy, a freelancer specializing in video games, creative writing, and playtesting. I help individuals bring their ideas to life with storytelling.</p>
+                <p>With a strong foundation in creative writing, I excel at crafting engaging narratives and compelling content, particularly in narrative design. My effective communication skills foster positive relationships and enhance team dynamics.</p>
+            </div>
+
+            <h3 class="notion-h3">Top Skills</h3>
+            <ul class="list-disc list-inside text-sm space-y-1">
+                <li>Creative Writing</li>
+                <li>Narrative Design</li>
+                <li>Interpersonal Communication</li>
+            </ul>
+
+            <h3 class="notion-h3">Education</h3>
+            <ul class="list-disc list-inside text-sm space-y-1">
+                <li>Anderson High School (2016-2020)</li>
+                <li>The University of Texas at Dallas (2021-2025)</li>
+            </ul>
+        </div>
+
+        <div class="md:col-span-4 flex justify-center items-start">
+            <div class="w-full max-w-sm rounded-lg overflow-hidden border border-gray-100 shadow-sm">
+                <img src="image.jpg" alt="Mercy Perutka" class="w-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800'">
+            </div>
+        </div>
+
+        <div class="md:col-span-4">
+            <h2 class="notion-h2">Contact</h2>
+            <div class="text-sm space-y-2 mb-8">
+                <p>+512-915-6997</p>
+                <p><a href="mailto:vivianperutka@outlook.com" class="contact-link">vivianperutka@outlook.com</a></p>
+                <p>Plano, Texas</p>
+            </div>
+
+            <a href="https://www.linkedin.com/in/vivian-perutka-85a4981ca/" target="_blank" class="linkedin-button flex items-center gap-2 px-4 py-3 mb-8 w-full">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                <span class="text-xs font-bold uppercase tracking-wider">Linkedin</span>
+            </a>
+
+            <h2 class="notion-h2">Languages</h2>
+            <ul class="list-disc list-inside text-sm space-y-1">
+                <li>English</li>
+                <li>Czech</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer class="border-t border-gray-100 pt-8 text-[10px] text-gray-300 flex justify-between pb-12">
+        <p>© 2026 Mercy Perutka</p>
+        <p>Interactive Portfolio • Notion Aesthetic</p>
+    </footer>
+
+    <script>
+        const projects = [
+            {
+                id: 'darkness',
+                title: 'Darkness Follows',
+                image: 'moonsmaller.png',
+                tags: ['Writing', 'Co-Directing'],
+                shortDesc: 'Narrative Designer and Co-Director for an episodic horror',
+                year: 'Early 2026 - Present',
+                fullDesc: `
+                    <p><strong>Darkness Follows</strong> is a first-person psychological horror game that follows Oliver Roote, a grieving father whose daughter is taken by creatures from an underground world. Armed with a mysterious Shard Gauntlet and guided by an enigmatic stranger, Oliver must descend into the rusted halls of a forgotten facility—a place of failed experiments, graphic violence, and unimaginable horrors.</p>
+                    <p class="mt-4">Featuring visceral combat with a dismemberment system, stealth mechanics that reward player choice, and eight unique shard abilities that reshape both puzzles and encounters, Darkness Follows subverts indie horror expectations. Its blood-soaked corridors and monstrous designs create an atmosphere where trust is a liability.</p>
+                `
+            },
+            {
+                id: 'tavern',
+                title: 'Tavern Tycoon: Brew & Brawl',
+                image: 'https://images.unsplash.com/photo-1514539079130-25950c84af65?auto=format&fit=crop&q=80&w=500',
+                tags: ['Writing'],
+                shortDesc: 'One of two Narrative Designers on Forbidden Kemono Studio',
+                year: '2025 - Present',
+                fullDesc: `
+                    <p>A <strong>cozy-chaotic 3D management sim</strong> where players build and run a medieval tavern that doubles as a battleground.</p>
+                    <ul class="list-disc list-inside mt-4 space-y-2">
+                        <li><strong>Tycoon gameplay</strong>: Resource management, staff assignments, and upgrades.</li>
+                        <li><strong>Light real-time combat</strong>: Handle brawls and monster defenses within your own establishment.</li>
+                        <li><strong>Narrative Focus</strong>: Crafting unique world-building elements for Forbidden Kemono Studio.</li>
+                    </ul>
+                `
+            },
+            {
+                id: 'sk',
+                title: 'SK: Approach of Darkness',
+                image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=500',
+                tags: ['Writing'],
+                shortDesc: 'One of the writers for a Shovel Knight Fangame',
+                year: '2024 - Present',
+                fullDesc: `
+                    <p><strong>Shovel Knight: Approach of Darkness</strong> is a fangame crafted by a small group of passionate fans and friends. After collaborating on a larger server event, we were inspired to create something more with our characters—and this project was born!</p>
+                    <p class="mt-4">As a labor of love, it will be released for free. <em>Note: Shovel Knight and all of its assets belong to Yacht Club Games and we make no claims of ownership.</em></p>
+                `
+            },
+            {
+                id: 'reverie',
+                title: 'Reverie Ward',
+                image: 'Laptop_scene-game_talking.png',
+                tags: ['Developing', 'Writing'],
+                shortDesc: 'Upcoming Indie Game',
+                year: '2025 - Present',
+                fullDesc: `
+                    <p>Reverie Ward explores the story of Renata, a young girl bedridden by health issues. Being confined to a hospital bed for an extended period does horrors to mental health, but Renata still interacts with the outside world via the games she plays on her laptop and the kind nurses who attend to her.</p>
+                    <p class="mt-4">Players start by exploring Renata's hospital room, interacting with objects and nurses. They read messages from her online friends, engage in conversations, and make choices that impact her emotional well-being. In the virtual world, players join Renata's adventures, allowing her to connect with the world beyond her room.</p>
+                `
+            },
+            {
+                id: 'gravitus',
+                title: 'Gravitus',
+                image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=500',
+                tags: ['Playtesting'],
+                shortDesc: 'Playtesting a new game from Atomic Lollypop',
+                year: '2025 - Present',
+                fullDesc: `
+                    <p>Providing essential playtesting and quality assurance feedback for <strong>Gravitus</strong>, an upcoming title from Atomic Lollypop LLC.</p>
+                    <p class="mt-4">Work involves identifying balance issues, narrative flow inconsistencies, and bugs to ensure a polished final experience for players.</p>
+                `
+            }
+        ];
+
+        const grid = document.getElementById('project-grid');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalInner = document.getElementById('modal-inner');
+
+        // Generate Cards
+        projects.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'notion-card';
+            card.onclick = () => openModal(p);
+            
+            const tagsHtml = p.tags.map(t => `<span class="tag tag-${t.toLowerCase()}">${t}</span>`).join('');
+            
+            card.innerHTML = `
+                <div class="card-img-container">
+                    <img src="${p.image}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/400x200?text=${p.title.replace(/ /g, '+')}'">
+                </div>
+                <div class="p-3 flex-grow">
+                    <h4 class="text-sm font-bold flex items-center gap-1 mb-2">
+                        <span class="opacity-50 text-[12px]">📄</span> ${p.title}
+                    </h4>
+                    <div class="flex flex-wrap mb-2">${tagsHtml}</div>
+                    <p class="text-[11px] text-gray-600 leading-relaxed mb-4">${p.shortDesc}</p>
+                    <p class="text-[10px] text-gray-400 mt-auto">${p.year}</p>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        function openModal(project) {
+            const tagsHtml = project.tags.map(t => `<span class="tag tag-${t.toLowerCase()}">${t}</span>`).join('');
+            
+            modalInner.innerHTML = `
+                <div class="h-64 overflow-hidden">
+                    <img src="${project.image}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/800x400?text=${project.title}'">
+                </div>
+                <div class="modal-body">
+                    <h1 class="text-3xl font-bold mb-4">${project.title}</h1>
+                    <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-100 pb-4">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Project Type</span>
+                            <div>${tagsHtml}</div>
+                        </div>
+                        <div class="flex flex-col ml-8">
+                            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Timeline</span>
+                            <span class="text-sm font-medium">${project.year}</span>
+                        </div>
+                    </div>
+                    <div class="text-[#37352f] text-[15px] leading-relaxed">
+                        ${project.fullDesc}
+                    </div>
+                </div>
+            `;
+            
+            modalOverlay.style.display = 'flex';
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal(event) {
+            modalOverlay.style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
