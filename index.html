@@ -11,54 +11,100 @@
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            color: #37352f;
-            background-color: #ffffff;
+            color: #ffffff;
+            background-color: #191919; /* Notion Dark Mode Background */
             line-height: 1.6;
+            margin: 0;
+            overflow-x: hidden;
         }
-        .notion-h1 { font-size: 2.25rem; font-weight: 700; color: #37352f; margin-bottom: 2rem; }
+
+        /* Header Image with Fade Effect */
+        #header-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            background-color: #121212;
+        }
+        #header-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease-out;
+        }
+
+        /* Notion Typography */
+        .notion-h1 { font-size: 2.5rem; font-weight: 700; color: #ffffff; margin-bottom: 2rem; }
         .notion-h2 { font-size: 1.5rem; font-weight: 600; color: #a4794e; margin-bottom: 1.25rem; }
         .notion-h3 { font-size: 1.1rem; font-weight: 600; color: #a4794e; margin-top: 1.5rem; margin-bottom: 0.5rem; }
         
+        /* Main Content Wrapper */
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 4rem 8rem 4rem;
+            position: relative;
+        }
+
+        /* Star Icon - Positioned halfway over cover and page */
+        .page-icon {
+            font-size: 80px;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -60px; /* Half of height to sit on the line */
+            left: 4rem;
+            background-color: #191919;
+            border-radius: 20px;
+            z-index: 10;
+            user-select: none;
+            filter: sepia(0.5) saturate(1.5) hue-rotate(340deg);
+        }
+
         /* Card Styles */
         .notion-card {
-            border: 1px solid #e9e9e8;
-            border-radius: 8px;
+            border: 1px solid #2f2f2f;
+            border-radius: 4px;
             overflow: hidden;
-            background: white;
+            background: #202020;
             transition: background 120ms ease-in;
             display: flex;
             flex-direction: column;
             height: 100%;
             cursor: pointer;
         }
-        .notion-card:hover { background-color: #f7f6f3; }
+        .notion-card:hover { background-color: #2a2a2a; }
         
         /* Tag Styles */
         .tag { padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 500; display: inline-block; margin-right: 4px; margin-bottom: 4px; }
-        .tag-writing { background-color: #faebdd; color: #a45b10; }
-        .tag-directing { background-color: #e7f3f8; color: #096ea0; }
-        .tag-developing { background-color: #f4f0f7; color: #9065b0; }
-        .tag-playtesting { background-color: #fdecc8; color: #cb912f; }
+        .tag-writing { background-color: #433022; color: #d9b99b; }
+        .tag-directing { background-color: #28456c; color: #d3e5ef; }
+        .tag-developing { background-color: #493064; color: #e8deee; }
+        .tag-playtesting { background-color: #594a1a; color: #fdecc8; }
         
-        .contact-link:hover { text-decoration: underline; }
+        .contact-link:hover { text-decoration: underline; color: #a4794e; }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-thumb { background: #d3d1cb; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #aeaca6; }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #191919; }
+        ::-webkit-scrollbar-thumb { background: #37352f; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #474540; }
 
         .linkedin-button {
-            background-color: #faebdd;
-            color: #37352f;
-            border-radius: 6px;
+            background-color: #433022;
+            color: #d9b99b;
+            border-radius: 4px;
             transition: opacity 0.2s;
             text-decoration: none !important;
         }
         .linkedin-button:hover { opacity: 0.8; }
         
         .card-img-container {
-            height: 140px;
-            background-color: #f1f1ef;
+            height: 160px;
+            background-color: #2f2f2f;
             overflow: hidden;
         }
         .card-img-container img {
@@ -75,21 +121,22 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 1000;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
         #modal-content {
-            background: white;
+            background: #191919;
             width: 100%;
             max-width: 800px;
             max-height: 90vh;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
             overflow-y: auto;
             position: relative;
+            border: 1px solid #2f2f2f;
         }
         .modal-body {
             padding: 40px 60px;
@@ -98,15 +145,13 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            color: #d3d1cb;
+            color: #888;
             cursor: pointer;
             transition: color 0.2s;
         }
-        .close-btn:hover { color: #37352f; }
+        .close-btn:hover { color: #fff; }
         
-        body.modal-open {
-            overflow: hidden;
-        }
+        body.modal-open { overflow: hidden; }
 
         /* FAQ Toggle Styling */
         details summary {
@@ -117,13 +162,10 @@
             gap: 8px;
             font-weight: 500;
         }
-        details summary::-webkit-details-marker {
-            display: none;
-        }
         details summary::before {
             content: "▶";
             font-size: 10px;
-            color: #37352f;
+            color: #888;
             transition: transform 0.2s;
         }
         details[open] summary::before {
@@ -132,7 +174,7 @@
 
         .cta-box {
             background-color: #433022;
-            color: #ffffff;
+            color: #d9b99b;
             border-radius: 4px;
             padding: 12px 16px;
             display: flex;
@@ -141,9 +183,32 @@
             width: fit-content;
             text-decoration: none !important;
         }
+
+        /* Notion UI Controls */
+        .notion-ui-btn {
+            background: #252525;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 12px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Title section spacing to accommodate overlapping icon */
+        .title-section {
+            padding-top: 80px;
+        }
     </style>
 </head>
-<body class="p-8 md:p-16 lg:px-32 max-w-[1400px] mx-auto">
+<body>
+
+    <!-- Header Image -->
+    <div id="header-container">
+        <img id="header-image" src="https://file.garden/ZcLnfzRVyFfOaPqB/Portfolio%20Stuff/moonsmaller.png" alt="Header Moon and Stars">
+    </div>
 
     <!-- Modal Overlay -->
     <div id="modal-overlay" onclick="closeModal(event)">
@@ -151,169 +216,123 @@
             <div class="close-btn" onclick="closeModal()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </div>
-            <div id="modal-inner">
-                <!-- Content injected by JS -->
-            </div>
+            <div id="modal-inner"></div>
         </div>
     </div>
 
-    <!-- Title Header -->
-    <header class="mb-12">
-        <h1 class="notion-h1">Mercy Perutka - Game Designer and Writer</h1>
-    </header>
+    <div class="content-container">
+        <!-- Page Icon Star: Positioned absolute to overlap cover -->
+        <div class="page-icon">✱</div>
 
-    <!-- Work Gallery Section (Top) -->
-    <section class="mb-24">
-        <h2 class="notion-h2">What I'm working on</h2>
-        <div class="flex items-center gap-2 text-xs text-gray-400 mb-6 px-1">
-            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-            Gallery view
-        </div>
+        <header class="mb-12 title-section">
+            <h1 class="notion-h1">Mercy Perutka - Game Designer and Writer</h1>
+        </header>
 
-        <!-- Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4" id="project-grid">
-            <!-- Cards generated by JavaScript -->
-        </div>
-    </section>
-
-    <!-- About & Contact Section -->
-    <section class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-24 pt-12 border-t border-gray-100">
-        
-        <div class="md:col-span-4">
-            <h2 class="notion-h2">About Me</h2>
-            <div class="text-sm space-y-4 text-[#37352f]">
-                <p class="font-bold">Hi, I'm Mercy, a freelancer specializing in video games, creative writing, and playtesting. I help individuals bring their ideas to life with storytelling.</p>
-                <p>With a strong foundation in creative writing, I excel at crafting engaging narratives and compelling content, particularly in narrative design. My effective communication skills foster positive relationships and enhance team dynamics.</p>
-            </div>
-
-            <h3 class="notion-h3">Top Skills</h3>
-            <ul class="list-disc list-inside text-sm space-y-1">
-                <li>Creative Writing</li>
-                <li>Narrative Design</li>
-                <li>Interpersonal Communication</li>
-            </ul>
-
-            <h3 class="notion-h3">Education</h3>
-            <ul class="list-disc list-inside text-sm space-y-1">
-                <li>Anderson High School (2016-2020)</li>
-                <li>The University of Texas at Dallas (2021-2025)</li>
-            </ul>
-        </div>
-
-        <div class="md:col-span-4 flex justify-center items-start">
-            <div class="w-full max-w-sm rounded-lg overflow-hidden border border-gray-100 shadow-sm">
-                <img src="https://file.garden/ZcLnfzRVyFfOaPqB/Portfolio%20Stuff/IMG_5956(1).jpg" alt="Mercy Perutka" class="w-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800'">
-            </div>
-        </div>
-
-        <div class="md:col-span-4">
-            <h2 class="notion-h2">Contact</h2>
-            <div class="text-sm space-y-2 mb-8">
-                <p>+512-915-6997</p>
-                <p><a href="mailto:vivianperutka@outlook.com" class="contact-link">vivianperutka@outlook.com</a></p>
-                <p>Plano, Texas</p>
-            </div>
-
-            <a href="https://www.linkedin.com/in/vivian-perutka-85a4981ca/" target="_blank" class="linkedin-button flex items-center gap-2 px-4 py-3 mb-8 w-full">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-                <span class="text-xs font-bold uppercase tracking-wider">Linkedin</span>
-            </a>
-
-            <h2 class="notion-h2">Languages</h2>
-            <ul class="list-disc list-inside text-sm space-y-1">
-                <li>English</li>
-                <li>Czech</li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="mb-24 pt-12 border-t border-gray-100">
-        <h2 class="notion-h2">Testimonials</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <!-- Testimonial 1 -->
-            <div class="space-y-3">
-                <div class="flex items-center gap-2 font-semibold text-sm">
-                    <span class="text-blue-400">💬</span> Hardworking
-                </div>
-                <p class="text-[13px] text-[#37352f] italic leading-relaxed">
-                    "A passionate and kind worker, Mercy has shown both fierce dedication whenever I've worked alongside them and a willingness and ability to work alongside others. They have also been a great help both in terms of work and outside of it, I've met few people as dependable as Mercy."
-                </p>
-                <p class="text-[12px] font-bold">- Joshua Cooks, <span class="font-normal text-gray-500">Programmer/Developer</span></p>
-            </div>
-            <!-- Testimonial 2 -->
-            <div class="space-y-3">
-                <div class="flex items-center gap-2 font-semibold text-sm">
-                    <span class="text-blue-400">💬</span> Incredibly kind and creative!
-                </div>
-                <p class="text-[13px] text-[#37352f] italic leading-relaxed">
-                    "Whenever Mercy sends me a sample to read, I end up wanting more. Outside of writing, Mercy is generous, collaborative and hardworking, and I always enjoy working with them."
-                </p>
-                <p class="text-[12px] font-bold">- Michael Lubker, <span class="font-normal text-gray-500">Indie Game Developer</span></p>
-            </div>
-            <!-- Testimonial 3 -->
-            <div class="space-y-3">
-                <div class="flex items-center gap-2 font-semibold text-sm">
-                    <span class="text-blue-400">💬</span> -
-                </div>
-                <p class="text-[13px] text-[#37352f] italic leading-relaxed">"..."</p>
-                <p class="text-[12px] font-bold">- -</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ & CTA Section -->
-    <section class="mb-24 pt-12 border-t border-gray-100">
-        <h2 class="notion-h2 text-[#a4794e]">Let's Tell a Story!</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <!-- Work Gallery Section -->
+        <section class="mb-24">
+            <h2 class="notion-h2">What I'm working on</h2>
             
-            <!-- FAQ Column -->
-            <div class="space-y-6">
-                <h3 class="font-bold text-lg mb-4">Frequently Asked Questions:</h3>
-                
-                <details class="group border-b border-gray-50 pb-3">
-                    <summary class="text-sm">What services do you offer?</summary>
-                    <p class="mt-3 text-sm text-gray-600 pl-6">
-                        I specialize in writing and narrative design. Whether you need a backstory to help describe a character, or dialogue for your game, I'm here to help.
-                    </p>
-                </details>
-
-                <details class="group border-b border-gray-50 pb-3">
-                    <summary class="text-sm">How do I get started on a project with you?</summary>
-                    <p class="mt-3 text-sm text-gray-600 pl-6">
-                        Simply call or send me a message with your project details. We'll discuss your needs, goals, and timeline before starting.
-                    </p>
-                </details>
-
-                <details class="group border-b border-gray-50 pb-3">
-                    <summary class="text-sm">What's your turnaround time?</summary>
-                    <p class="mt-3 text-sm text-gray-600 pl-6">
-                        Turnaround time depends on the project's complexity and my availability with other projects. When you get in contact with me, we can discuss the time frame needed.
-                    </p>
-                </details>
-            </div>
-
-            <!-- CTA Column -->
-            <div class="space-y-6">
-                <h3 class="font-bold text-lg mb-4">Let's bring your vision to life!</h3>
-                <div class="text-sm space-y-4 text-gray-600">
-                    <p>Whether you need help with writing, narrative design, content design, or something new, I'm here to collaborate and create something exceptional.</p>
-                    <p>Use the button below to schedule a quick consultation. We'll discuss your ideas, project goals, and how I can help turn them into reality.</p>
-                    <p>I look forward to working with you!</p>
+            <div class="flex items-center justify-between mb-6">
+                <div class="notion-ui-btn">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                    Gallery view
                 </div>
-                
-                <a href="mailto:vivianperutka@outlook.com" class="cta-box mt-4">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.82 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                    <span class="text-sm font-medium">Feel free to call or email me!</span>
-                </a>
+                <div class="flex items-center gap-4 text-gray-500">
+                    <svg class="w-4 h-4 cursor-pointer hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>
+                    <svg class="w-4 h-4 cursor-pointer hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <div class="bg-[#2383e2] text-white px-2 py-0.5 rounded text-xs font-bold flex items-center gap-1">New <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></div>
+                </div>
             </div>
-        </div>
-    </section>
 
-    <footer class="border-t border-gray-100 pt-8 text-[10px] text-gray-300 flex justify-between pb-12">
-        <p>© 2026 Mercy Perutka</p>
-        <p>Interactive Portfolio • Notion Aesthetic</p>
-    </footer>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="project-grid">
+                <!-- Cards injected by JS -->
+            </div>
+        </section>
+
+        <!-- About & Contact -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-24 pt-12 border-t border-[#2f2f2f]">
+            <div class="md:col-span-4">
+                <h2 class="notion-h2">About Me</h2>
+                <div class="text-sm space-y-4 text-gray-300">
+                    <p class="font-bold text-white">Hi, I'm Mercy, a freelancer specializing in video games, creative writing, and playtesting.</p>
+                    <p>With a strong foundation in creative writing, I excel at crafting engaging narratives and compelling content, particularly in narrative design. My effective communication skills foster positive relationships and enhance team dynamics.</p>
+                </div>
+                <h3 class="notion-h3">Top Skills</h3>
+                <ul class="list-disc list-inside text-sm space-y-1 text-gray-400">
+                    <li>Creative Writing</li>
+                    <li>Narrative Design</li>
+                    <li>Interpersonal Communication</li>
+                </ul>
+            </div>
+
+            <div class="md:col-span-4 flex justify-center items-start">
+                <img src="https://file.garden/ZcLnfzRVyFfOaPqB/Portfolio%20Stuff/IMG_5956(1).jpg" alt="Mercy Perutka" class="w-full max-w-sm rounded border border-[#2f2f2f]">
+            </div>
+
+            <div class="md:col-span-4">
+                <h2 class="notion-h2">Contact</h2>
+                <div class="text-sm space-y-2 mb-8 text-gray-300">
+                    <p>+512-915-6997</p>
+                    <p><a href="mailto:vivianperutka@outlook.com" class="contact-link">vivianperutka@outlook.com</a></p>
+                    <p>Plano, Texas</p>
+                </div>
+                <a href="https://www.linkedin.com/in/vivian-perutka-85a4981ca/" target="_blank" class="linkedin-button flex items-center gap-2 px-4 py-3 mb-8 w-full">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                    <span class="text-xs font-bold uppercase tracking-wider">Linkedin</span>
+                </a>
+                <h2 class="notion-h2">Languages</h2>
+                <ul class="list-disc list-inside text-sm text-gray-400"><li>English</li><li>Czech</li></ul>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="mb-24 pt-12 border-t border-[#2f2f2f]">
+            <h2 class="notion-h2">Testimonials</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2 font-semibold text-sm">💬 Hardworking</div>
+                    <p class="text-[13px] text-gray-300 italic leading-relaxed">"A passionate and kind worker, Mercy has shown both fierce dedication whenever I've worked alongside them and a willingness and ability to work alongside others."</p>
+                    <p class="text-[12px] font-bold">- Joshua Cooks, <span class="font-normal text-gray-500">Programmer</span></p>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2 font-semibold text-sm">💬 Kind and creative!</div>
+                    <p class="text-[13px] text-gray-300 italic leading-relaxed">"Whenever Mercy sends me a sample to read, I end up wanting more. Outside of writing, Mercy is generous, collaborative and hardworking."</p>
+                    <p class="text-[12px] font-bold">- Michael Lubker, <span class="font-normal text-gray-500">Dev</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ & CTA -->
+        <section class="mb-24 pt-12 border-t border-[#2f2f2f]">
+            <h2 class="notion-h2">Let's Tell a Story!</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div class="space-y-6">
+                    <h3 class="font-bold text-lg">Frequently Asked Questions:</h3>
+                    <details class="group border-b border-[#2f2f2f] pb-3">
+                        <summary class="text-sm">What services do you offer?</summary>
+                        <p class="mt-3 text-sm text-gray-400 pl-6">I specialize in writing and narrative design. Whether you need a backstory or dialogue, I'm here to help.</p>
+                    </details>
+                    <details class="group border-b border-[#2f2f2f] pb-3">
+                        <summary class="text-sm">How do I get started?</summary>
+                        <p class="mt-3 text-sm text-gray-400 pl-6">Simply call or send me a message with your project details.</p>
+                    </details>
+                </div>
+                <div class="space-y-6">
+                    <h3 class="font-bold text-lg">Let's bring your vision to life!</h3>
+                    <p class="text-sm text-gray-400">Whether you need help with writing, narrative design, or playtesting, I'm here to collaborate.</p>
+                    <a href="mailto:vivianperutka@outlook.com" class="cta-box">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.82 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                        <span class="text-sm font-medium">Feel free to call or email me!</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="border-t border-[#2f2f2f] pt-8 text-[10px] text-gray-600 flex justify-between">
+            <p>© 2026 Mercy Perutka</p>
+            <p>Portfolio • Plano, TX</p>
+        </footer>
+    </div>
 
     <script>
         const projects = [
@@ -323,158 +342,77 @@
                 image: 'https://file.garden/ZcLnfzRVyFfOaPqB/Portfolio%20Stuff/DarknessFollows.png',
                 tags: ['Writing', 'Co-Directing'],
                 shortDesc: 'Narrative Designer and Co-Director for an episodic horror',
-                year: 'Early 2026 - Present',
-                fullDesc: `
-                    <p><strong>Darkness Follows</strong> is a first-person psychological horror game that follows Oliver Roote, a grieving father whose daughter is taken by creatures from an underground world. Armed with a mysterious Shard Gauntlet and guided by an enigmatic stranger, Oliver must descend into the rusted halls of a forgotten facility—a place of failed experiments, graphic violence, and unimaginable horrors.</p>
-                    <p class="mt-4">Featuring visceral combat with a dismemberment system, stealth mechanics that reward player choice, and eight unique shard abilities that reshape both puzzles and encounters, Darkness Follows subverts indie horror expectations. Its blood-soaked corridors and monstrous designs create an atmosphere where trust is a liability.</p>
-                `
+                year: '2026 - Present'
             },
             {
                 id: 'tavern',
                 title: 'Tavern Tycoon: Brew & Brawl',
                 image: 'https://images.unsplash.com/photo-1514539079130-25950c84af65?auto=format&fit=crop&q=80&w=500',
                 tags: ['Writing'],
-                shortDesc: 'One of two Narrative Designers on Forbidden Kemono Studio',
-                year: '2025 - Present',
-                fullDesc: `
-                    <p>A <strong>cozy-chaotic 3D management sim</strong> where players build and run a medieval tavern that doubles as a battleground.</p>
-                    <ul class="list-disc list-inside mt-4 space-y-2">
-                        <li><strong>Tycoon gameplay</strong>: Resource management, staff assignments, and upgrades.</li>
-                        <li><strong>Light real-time combat</strong>: Handle brawls and monster defenses within your own establishment.</li>
-                        <li><strong>Narrative Focus</strong>: Crafting unique world-building elements for Forbidden Kemono Studio.</li>
-                    </ul>
-                    <div class="mt-6 flex flex-col gap-2 text-sm">
-                        <a href="https://store.steampowered.com/app/3649110/Tavern_Tycoon_Brew__Brawl/" target="_blank" class="text-[#a4794e] hover:underline flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg> 
-                            Tavern Tycoon on Steam
-                        </a>
-                    </div>
-                `
+                shortDesc: 'Narrative Designer on Forbidden Kemono Studio',
+                year: '2025 - Present'
             },
             {
                 id: 'sk',
                 title: 'SK: Approach of Darkness',
                 image: 'https://file.garden/ZcLnfzRVyFfOaPqB/Portfolio%20Stuff/SKApproachOfDarkness.jpg',
                 tags: ['Writing'],
-                shortDesc: 'One of the writers for a Shovel Knight Fangame',
-                year: '2024 - Present',
-                fullDesc: `
-                    <p><i>Long ago, the lands were untamed, and roamed by legendary adventurers!<br>
-                    Of all heroes, none shone brighter than Shovel Knight and Shield Knight.<br>
-                    With the Tower of Fate now a heap of rubble, the Valley was safe at last, or so they thought…<br>
-                    A new evil rose up from the ashes, Commando Knight and his new order!</i><br>
-                    With his power quickly growing, his goals of world domination would soon come to fruition…<br>
-                    The Valley had already fallen into darkness once, and Shovel Knight would not let that happen again!<br>
-                    Now, with a new threat in sight, Shovel Knight steels his shovel. A new adventure is about to begin…</p>
-                    
-                    <p class="mt-4"><strong>Shovel Knight: Approach of Darkness</strong> is a fangame crafted by a small group of passionate fans and friends. After collaborating on a larger server event, we were inspired to create something more with our characters—and this project was born! As a labor of love, it will be released for free.</p>
-                    <p class="mt-4 text-xs text-gray-500"><em>Note: Shovel Knight and all of its assets belong to Yacht Club Games and we make no claims of ownership.<br>
-                    Development is still ongoing.</em></p>
-                `
-            },
-            {
-                id: 'reverie',
-                title: 'Reverie Ward',
-                image: 'https://file.garden/ZcLnfzRVyFfOaPqB/Portfolio%20Stuff/ReverieWard.png',
-                tags: ['Developing', 'Writing'],
-                shortDesc: 'Upcoming Indie Game',
-                year: '2025 - Present',
-                fullDesc: `
-                    <p>Reverie Ward explores the story of Renata, a young girl bedridden by health issues. Being confined to a hospital bed for an extended period does horrors to mental health, but Renata still interacts with the outside world via the games she plays on her laptop and the kind nurses who attend to her.</p>
-                    <p class="mt-4">Players start by exploring Renata's hospital room, interacting with objects and nurses. They read messages from her online friends, engage in conversations, and make choices that impact her emotional well-being. In the virtual world, players join Renata's adventures, allowing her to connect with the world beyond her room.</p>
-                `
+                shortDesc: 'Writer for a Shovel Knight Fangame',
+                year: '2024 - Present'
             },
             {
                 id: 'gravitus',
                 title: 'Gravitus',
                 image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=500',
                 tags: ['Playtesting'],
-                shortDesc: 'Playtesting a new game from Atomic Lollypop',
-                year: '2025 - Present',
-                fullDesc: `
-                    <p>Enter a massive battlefield where two teams clash over resources, strategy, and firepower. Start as infantry, pilot hover tanks or flying pods, and unleash laser-based combat in a sci-fi warzone reminiscent of classic space battles.</p>
-                    <p class="mt-4">Currently, I'm providing critical feedback on game balance and quality of life features during closed playtesting for "Gravitus," enhancing player experience. One of my responsibilities is analyzing gameplay mechanics, documenting my findings, and collaborating with the development team.</p>
-                    <p class="mt-4">I also engage with fellow playtesters to gather insights, contributing to comprehensive reports that help the game grow and evolve.</p>
-                    <div class="mt-6 flex flex-col gap-2 text-sm">
-                        <a href="https://store.steampowered.com/app/3592770/Gravitus/" target="_blank" class="text-[#a4794e] hover:underline flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg> 
-                            Gravitus on Steam
-                        </a>
-                        <a href="https://atomiclollypop.com/" target="_blank" class="text-[#a4794e] hover:underline flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg> 
-                            Atomic Lollypop Website
-                        </a>
-                    </div>
-                `
+                shortDesc: 'Playtesting for Atomic Lollypop',
+                year: '2025 - Present'
             }
         ];
+
+        // Fade header on scroll
+        window.addEventListener('scroll', () => {
+            const scroll = window.scrollY;
+            const header = document.getElementById('header-image');
+            const opacity = Math.max(0, 1 - scroll / 250);
+            header.style.opacity = opacity;
+        });
 
         const grid = document.getElementById('project-grid');
         const modalOverlay = document.getElementById('modal-overlay');
         const modalInner = document.getElementById('modal-inner');
 
-        // Generate Cards
         projects.forEach(p => {
             const card = document.createElement('div');
             card.className = 'notion-card';
             card.onclick = () => openModal(p);
-            
             const tagsHtml = p.tags.map(t => `<span class="tag tag-${t.toLowerCase()}">${t}</span>`).join('');
-            
             card.innerHTML = `
-                <div class="card-img-container">
-                    <img src="${p.image}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/400x200?text=${p.title.replace(/ /g, '+')}'">
-                </div>
+                <div class="card-img-container"><img src="${p.image}" alt="${p.title}"></div>
                 <div class="p-3 flex-grow">
-                    <h4 class="text-sm font-bold flex items-center gap-1 mb-2">
-                        <span class="opacity-50 text-[12px]">📄</span> ${p.title}
-                    </h4>
+                    <h4 class="text-sm font-bold flex items-center gap-1 mb-2">📄 ${p.title}</h4>
                     <div class="flex flex-wrap mb-2">${tagsHtml}</div>
-                    <p class="text-[11px] text-gray-600 leading-relaxed mb-4">${p.shortDesc}</p>
-                    <p class="text-[10px] text-gray-400 mt-auto">${p.year}</p>
-                </div>
-            `;
+                    <p class="text-[11px] text-gray-400 mb-4">${p.shortDesc}</p>
+                    <p class="text-[10px] text-gray-500 mt-auto">${p.year}</p>
+                </div>`;
             grid.appendChild(card);
         });
 
         function openModal(project) {
-            const tagsHtml = project.tags.map(t => `<span class="tag tag-${t.toLowerCase()}">${t}</span>`).join('');
-            
             modalInner.innerHTML = `
-                <div class="h-64 overflow-hidden">
-                    <img src="${project.image}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/800x400?text=${project.title}'">
-                </div>
+                <img src="${project.image}" class="w-full h-64 object-cover">
                 <div class="modal-body">
                     <h1 class="text-3xl font-bold mb-4">${project.title}</h1>
-                    <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-100 pb-4">
-                        <div class="flex flex-col">
-                            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Project Type</span>
-                            <div>${tagsHtml}</div>
-                        </div>
-                        <div class="flex flex-col ml-8">
-                            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Timeline</span>
-                            <span class="text-sm font-medium">${project.year}</span>
-                        </div>
-                    </div>
-                    <div class="text-[#37352f] text-[15px] leading-relaxed">
-                        ${project.fullDesc}
-                    </div>
-                </div>
-            `;
-            
+                    <p class="text-gray-300">${project.shortDesc}</p>
+                </div>`;
             modalOverlay.style.display = 'flex';
             document.body.classList.add('modal-open');
         }
 
-        function closeModal(event) {
+        function closeModal() {
             modalOverlay.style.display = 'none';
             document.body.classList.remove('modal-open');
         }
-
-        // Close on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-        });
     </script>
 </body>
 </html>
